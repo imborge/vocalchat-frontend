@@ -1,0 +1,29 @@
+@import "_vars.scss";
+
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed');
+
+body {
+  font: 1em/1.5 "Roboto", arial, sans-serif;
+}
+
+.hh {
+  margin-bottom: $spacing;
+}
+
+.h1 {
+  @extend .hh !optional;
+}
+
+h1 {
+  @extend .h1;
+  font-size: 3em;
+}
+
+h2 {
+  @extend .hh;
+  font-size: 2.6em;
+}
+
+p {
+  margin-bottom: $spacing;
+}
