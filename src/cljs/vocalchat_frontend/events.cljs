@@ -75,6 +75,7 @@
    (let [audio (js/Audio.)]
      (set! (.-autoplay audio) true)
      (set! (.-srcObject audio) stream)
+     (set! (.-remoteAudio js/window) audio)
      (rf/dispatch [:remote-audio-initialized audio]))))
 
 ;; events
