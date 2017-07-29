@@ -11,8 +11,7 @@
  (fn [{:keys [msg peer-connection]}]
    (let [desc (js/RTCSessionDescription. (clj->js (:sdp msg)))]
      (-> (.setRemoteDescription peer-connection desc)
-         (.catch #((when config/debug?
-                     (println "Error setting remote description in :receive-answer fx:" %))))))))
+         (.catch #(println "Error setting remote description in :receive-answer fx:" %))))))
 
 (rf/reg-fx
  :ws
@@ -46,8 +45,7 @@
                                               (.then (fn [offer]
                                                        (.setLocalDescription pc offer)))
                                               (.then #(rf/dispatch [:rtc-peer-connection/send-offer pc caller?]))
-                                              (.catch #(when config/debug?
-                                                         (println "onnegotiationneeded error:" %)))))))
+                                              (.catch #(println "onnegotiationneeded error:" %))))))
      (when caller?
        (.addStream pc stream))
      (rf/dispatch [:rtc-peer-connection/init-complete pc]))))
@@ -61,18 +59,15 @@
          (.then #(.createAnswer peer-connection))
          (.then #(.setLocalDescription peer-connection %))
          (.then #(rf/dispatch [:rtc-peer-connection/send-answer peer-connection]))
-         (.catch #(when config/debug?
-                    (println "receive-offer error:" %)))))))
+         (.catch #(println "receive-offer error:" %))))))
 
 (rf/reg-fx
  :receive-ice-candidate
  (fn [{:keys [candidate peer-connection]}]
    (when (:candidate candidate)
-     #_(println (:candidate candidate))
      (let [candidate-obj (js/RTCIceCandidate. candidate)]
        (-> (.addIceCandidate peer-connection candidate-obj)
-           (.catch #(when config/debug?
-                      (println "Error adding ICE candidate: " %))))))))
+           (.catch #(println "Error adding ICE candidate: " %)))))))
 
 (rf/reg-fx
  :remote-stream
