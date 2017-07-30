@@ -147,11 +147,11 @@
                              (assoc-in [:match] {:room-uuid (:room-uuid message)
                                                  :caller?   (:caller? message)})
                              (assoc-in [:queue :status] :matched))
-    :rtc-peer-connection {:config    {:iceServers [{:urls ["stun:stun.l.google.com:19302"
+    :rtc-peer-connection {:config    {:iceServers [#_{:urls ["stun:stun.l.google.com:19302"
                                                            "stun:stun1.l.google.com:19302"
                                                            "stun:stun2.l.google.com:19302"
                                                            "stun:stun3.l.google.com:19302"]}
-                                                   {:urls       "turn:vocal.chat"
+                                                   {:urls       "turn:45.33.51.88"
                                                     :username   "testuser"
                                                     :credential "testpass123"}]}
                           :stream    (get-in db [:user-media :stream])
