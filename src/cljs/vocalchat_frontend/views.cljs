@@ -34,11 +34,13 @@
                          (rf/dispatch [:queue/unqueue]))} "Leave queue"]])
 
 (defn in-call-panel []
-  [:div#call-box
-   [:h1 "In call..."]
-   [:button {:on-click (fn [event]
-                         (.preventDefault event)
-                         (rf/dispatch [:hangup]))} "Hang up"]])
+  (let [ice-state (rf/subscribe [:ice-state])]
+    [:div#call-box
+     [:h1 "In call"]
+     [:p "State: " @ice-state]
+     [:button {:on-click (fn [event]
+                           (.preventDefault event)
+                           (rf/dispatch [:hangup]))} "Hang up"]]))
 
 (defn home-panel []
   (let [status     (rf/subscribe [:status])

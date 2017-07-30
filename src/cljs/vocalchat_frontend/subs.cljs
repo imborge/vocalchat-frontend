@@ -26,3 +26,8 @@
  :queue
  (fn [db _]
    (:queue db)))
+
+(rf/reg-sub
+ :ice-state
+ (fn [db _]
+   (:ice-state db)))

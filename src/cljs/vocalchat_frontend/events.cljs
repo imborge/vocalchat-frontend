@@ -39,6 +39,8 @@
                                    (rf/dispatch [:rtc-peer-connection/send-ice-candidate (-> event .-candidate)])))
      (set! (.-onaddstream pc) (fn [event]
                                 (rf/dispatch [:set-remote-stream (-> event .-stream)])))
+     (set! (.-oniceconnectionstatechange pc) (fn [event]
+                                               (rf/dispatch [:ice-state (.-iceconnectionstate pc)])))
      (set! (.-onnegotiationneeded pc) (fn [event]
                                         (when caller?
                                           (-> (.createOffer pc)
@@ -148,7 +150,8 @@
     :rtc-peer-connection {:config    {:iceServers [{:urls ["stun:stun.l.google.com:19302"
                                                            "stun:stun1.l.google.com:19302"
                                                            "stun:stun2.l.google.com:19302"
-                                                           "stun:stun3.l.google.com:19302"]}]}
+                                                           "stun:stun3.l.google.com:19302",
+                                                           "turn:vocal.chat"]}]}
                           :stream    (get-in db [:user-media :stream])
                           :caller?   (:caller? message)
                           :user-uuid (:user-uuid message)}}))
@@ -296,3 +299,8 @@
                                         :room-uuid (get-in db [:match :room-uuid])
                                         :caller?   (get-in db [:match :caller?])}})
        output-map))))
+
+(rf/reg-event-db
+ :ice-state
+ (fn [db [_ state]]
+   (assoc db :ice-state state)))
