@@ -150,8 +150,10 @@
     :rtc-peer-connection {:config    {:iceServers [{:urls ["stun:stun.l.google.com:19302"
                                                            "stun:stun1.l.google.com:19302"
                                                            "stun:stun2.l.google.com:19302"
-                                                           "stun:stun3.l.google.com:19302",
-                                                           "turn:vocal.chat"]}]}
+                                                           "stun:stun3.l.google.com:19302"]
+                                                    {:urls       "turn:vocal.chat"
+                                                     :username   "testuser"
+                                                     :credential "testpass123"}}]}
                           :stream    (get-in db [:user-media :stream])
                           :caller?   (:caller? message)
                           :user-uuid (:user-uuid message)}}))
